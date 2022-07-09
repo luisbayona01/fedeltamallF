@@ -1,0 +1,147 @@
+<header> </header>
+
+<div class="cart-menu align-items-center d-flex" style="
+margin-top: 20px;
+">
+    <div class="form-group">
+        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal" title="Facebook" rel="nofollow">
+    <i class="fas fa-shopping-cart" style="color:white"> ( {{cantidadtotal }}) </i><span style="
+    padding-left: 5px;
+">{{valortotal | number:'1.0':'en-US'}}</span>
+  
+
+</button>
+    </div>
+</div>
+
+<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="RegresarTiendas()"><i class="glyphicon glyphicon-menu-left"></i> Regresar a las tiendas</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tus compras</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+
+
+                <div class="table-responsive-sm">
+
+                    <form id="pagarorden">
+                        <table class="table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>producto</th>
+                                    <th>precio</th>
+                                    <th>cantidad</th>
+                                    <th>subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ordenc of ordencompra index as i;">
+                                    <th>{{ordenc.nombre}}
+                                        <img class="img-fluid img-thumbnail" [src]="ordenc.imagen" width="100px" heigth="100px" alt="Card image cap">
+                                    </th>
+                                    <td>{{ordenc.precio}}</td>
+                                    <td><input type="number" class="form-control text-center" id="{{'cantidad'+ ordenc.idordendecompra}}" value="{{ordenc.cantidad}}"></td>
+                                    <td>{{ordenc.valor}}</td>
+                                    <td>
+                                        <div class="form-row justify-content-md-center">
+                                            <div class="col-md-auto mb-3">
+                                                <button type="button" class="btn btn-success" (click)="editcantidadO(ordenc.idordendecompra,ordenc.precio)"><i class="glyphicon glyphicon-floppy-saved" ></i></button>
+                                            </div>
+                                            <div class="col-md-auto mb-3">
+                                                <button type="button" class="btn btn-danger" (click)="deleteO(ordenc.idordendecompra)"><i class="glyphicon glyphicon-trash"></i></button>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="ordendesCompra[]" value='{{ordenc.idordendecompra}}'>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="glyphicon glyphicon-menu-left"></i> Continue Comprando</button>
+                <button type="button" class="btn btn-primary">Pagar <i class="glyphicon glyphicon-menu-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container justify-content-center" style="margin-top:30px ;">
+
+    <div class="row justify-content-center">
+        <div class="form-group">
+            <label for="inputPassword3">Categorias productos</label>
+            <select class="form-control show-tick" data-live-search="true" name="categoriaP" #categoriaP="ngModel" [(ngModel)]="OC.categoriaP" id="categoriasP">
+                <option  value="">Todos los productos</option>
+
+               <option *ngFor="let cp of categoriaproductos" value="{{cp.idcategoria}}">{{cp.categoria}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row  justify-content-center">
+
+
+
+
+        <div class="col-xl-3 col-sm-6 col-12" *ngFor="let producto of productos index as i;">
+
+            <div class="card" *ngIf="producto.idcategoria == OC.categoriaP || OC.categoriaP ==='' ">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="media-body text-left">
+                                <h3 class="success">{{producto.nombre}}</h3>
+
+                            </div>
+                            <div class="align-self-end">
+                                <img class="img-fluid img-thumbnail" [src]="producto.imagen" width="100px" heigth="100px" alt="Card image cap">
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+
+
+                            <ul class="list-unstyled mt-3 mb-4">
+
+
+                                <li>{{producto.descripcion}}</li>
+                                <li>$ {{producto.precio | number:'1.0':'en-US'}}</li>
+
+                            </ul>
+
+                            <button type="button" class="btn btn-block btn-primary agregar-carrito" (click)="AddOrdenC(producto.idproductos,producto.precio)"> Agregar Carrito</button>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</div>
